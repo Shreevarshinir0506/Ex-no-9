@@ -1,0 +1,147 @@
+import java.io.*;
+import java.util.Scanner;
+
+class STUDENT {
+    private String name;
+    private int age;
+
+    // Constructor, getter, and setter methods here
+
+    // Constructor
+    public STUDENT(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Getter and Setter methods
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+
+public class StudentFileOperations {
+    public static void main(String[] args) {
+        // Step 1: Create 10 student objects and write them to the IN file
+        writeStudentsToFile();
+
+        // Step 2: Read from IN file, convert to lowercase, and write to OUT file
+        convertToLowerCaseAndWriteToFile();
+    }
+
+    private static void writeStudentsToFile() {
+        try (PrintWriter writer = new PrintWriter("IN.txt")) {
+            for (int i = 1; i <= 10; i++) {
+                STUDENT student = new STUDENT("Student" + i, 20 + i);
+                writer.println(student.getName() + " " + student.getAge());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void convertToLowerCaseAndWriteToFile() {
+        try (Scanner scanner = new Scanner(new File("IN.txt"));
+             PrintWriter writer = new PrintWriter("OUT.txt")) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String lowercaseLine = line.toLowerCase();
+                writer.println(lowercaseLine);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+
+
+
+
+import java.io.File;
+
+public class FileInfoChecker {
+    public static void main(String[] args) {
+        // Create a Scanner to read user input
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter the file name: ");
+        String fileName = scanner.nextLine();
+        
+        // Create a File object using the provided file name
+        File file = new File(fileName);
+        
+        // Check if the file exists
+        if (file.exists()) {
+            System.out.println("File exists: Yes");
+            
+            // Check if the file is readable
+            if (file.canRead()) {
+                System.out.println("File is readable: Yes");
+            } else {
+                System.out.println("File is readable: No");
+            }
+            
+            // Check if the file is writable
+            if (file.canWrite()) {
+                System.out.println("File is writable: Yes");
+            } else {
+                System.out.println("File is writable: No");
+            }
+            
+            // Get the type of file
+            String fileType = "";
+            if (fileName.contains(".")) {
+                fileType = fileName.substring(fileName.lastIndexOf('.') + 1);
+            }
+            System.out.println("File type: " + fileType);
+            
+            // Get the length of the file in bytes
+            long fileLength = file.length();
+            System.out.println("File length in bytes: " + fileLength);
+        } else {
+            System.out.println("File exists: No");
+        }
+    }
+}
+
+
+
+
+
+
+import java.io.*;
+
+public class BinaryFileReadWrite {
+    public static void main(String[] args) {
+        String inputFile = "input.bin";
+        String outputFile = "output.bin";
+
+        // Using Byte Streams to read the binary file
+        try (FileInputStream inputStream = new FileInputStream(inputFile);
+             FileOutputStream outputStream = new FileOutputStream(outputFile)) {
+            int byteData;
+            while ((byteData = inputStream.read()) != -1) {
+                // Process the byte data (you can modify it here)
+                byte modifiedByte = (byte) (byteData + 1);
+
+                // Using Character Streams to write the modified data
+                try (OutputStreamWriter writer = new OutputStreamWriter(outputStream)) {
+                    writer.write(modifiedByte);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+
+
+
